@@ -1,0 +1,14 @@
+---
+- hosts: all
+  order: sorted
+  gather_facts: no
+  roles:
+    - role: lefant.openwrt-uci
+  tasks:
+    - name: Copy join.conf to tmp directory
+      raw: cp /opt/join/join.conf /tmp
+    - name: "UCI update Country"
+      uci:
+        command: set
+        key: wireless.wifi0.country
+        value: US

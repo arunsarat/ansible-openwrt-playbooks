@@ -1,0 +1,21 @@
+---
+- hosts: all
+  order: sorted
+  gather_facts: False
+  roles:
+    - role: gekmihesg.openwrt
+  tasks:
+    - name: Copy join.conf to tmp directory
+      raw: cp /opt/join/join.conf /tmp
+    - name: "Do Ping"
+      ping:
+    - name: "UCI update Country"
+      uci:
+        command: set
+        config: wireless
+        section: wifi0
+        option: country
+        value: EU
+    - name: "install iwinfo"
+      opkg:
+        name: iwinfo
